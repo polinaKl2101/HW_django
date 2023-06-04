@@ -1,4 +1,5 @@
 {% load static %}
+{% load my_tags %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -27,17 +28,14 @@
         <div class="col-3">
             <div class="card mb-4 box-shadow">
                 <div class="card-header">
-                    <h4 class="my-0 font-weight-normal">Удобный сервис рассылок</h4>
+                    <img src="{{ object.image|media_path }}" class="img-thumbnail" alt="IMAGE" width="350px"
+                         height="350px">
                 </div>
                 <div class="card-body">
-                    <h1 class="card-title pricing-card-title">$ 140</h1>
-                    <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                        <li>- Неограниченная лицензия</li>
-                        <li>- Поддержка</li>
-                        <li>- Установка на сервер</li>
-                        <li>- Получение обновлений</li>
-                    </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                    <p>{{ object.product_name }}</p>
+                    <p>{{ object.category }}</p>
+                    <p>{{ object.price }}</p>
+                    <p>{{ object.date_created|date:'Y-m-d' }}</p>
                 </div>
             </div>
         </div>

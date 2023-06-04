@@ -1,0 +1,86 @@
+[
+  {
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+      "category_name": "Еда",
+      "description": "Еда на все случаи жизни"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+      "category_name": "Одежда",
+      "description": "Мужская и женская одежда"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+      "category_name": "Автомобили",
+      "description": "Автомобили на все случаи жизни"
+    }
+  },
+  {
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+      "category_name": "Напитки",
+      "description": "Детские и взрослые"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "product_name": "Яблоко",
+      "description": "Спелое, красное",
+      "image": "images/redapple.jpg",
+      "category": 1,
+      "price": 400,
+      "date_created": "2023-06-04T21:17:22.222Z",
+      "last_change_date": "2023-06-04T21:17:22.222Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "product_name": "Джинсы",
+      "description": "Женские",
+      "image": "images/jeans.jpg",
+      "category": 2,
+      "price": 300,
+      "date_created": "2023-06-04T21:17:59.854Z",
+      "last_change_date": "2023-06-04T21:17:59.854Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "product_name": "БМВ",
+      "description": "Серая машина",
+      "image": "images/bmw.jpg",
+      "category": 3,
+      "price": 1000,
+      "date_created": "2023-06-04T21:18:26.549Z",
+      "last_change_date": "2023-06-04T21:18:26.549Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "product_name": "Молоко",
+      "description": "Без лактозы",
+      "image": "images/milk.jpeg",
+      "category": 4,
+      "price": 200,
+      "date_created": "2023-06-04T21:19:00.598Z",
+      "last_change_date": "2023-06-04T21:19:00.598Z"
+    }
+  }
+]
