@@ -13,13 +13,13 @@ class Command(BaseCommand):
 
         products_list = [
             {'product_name': 'Яблоко', 'description': 'Спелое, красное',
-             'image': 'catalog_images/redapple.jpg', 'category': food, 'price': 400},
+             'image': 'images/redapple.jpg', 'category': food, 'price': 400},
             {'product_name': 'Джинсы', 'description': 'Женские',
-             'image': 'catalog_images/jeans.jpg', 'category': clothes, 'price': 300},
+             'image': 'images/jeans.jpg', 'category': clothes, 'price': 300},
             {'product_name': 'БМВ', 'description': 'Серая машина',
-             'image': 'catalog_images/bmw.jpg', 'category': cars, 'price': 1000},
+             'image': 'images/bmw.jpg', 'category': cars, 'price': 1000},
             {'product_name': 'Молоко', 'description': 'Без лактозы',
-             'image': 'catalog_images/milk.jpg', 'category': drinks, 'price': 200},
+             'image': 'images/milk.jpg', 'category': drinks, 'price': 200},
         ]
 
         Product.objects.all().delete()

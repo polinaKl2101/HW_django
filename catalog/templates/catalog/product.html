@@ -1,0 +1,21 @@
+{% extends 'catalog/homepage.html' %}
+{% load my_tags %}
+{% block content %}
+    {% for object in object_list %}
+            <div class="col-3">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"
+                             height="350px">
+                    </div>
+                    <div class="card-body">
+                        <p>{{ object.product_name }}</p>
+                        <p>{{ object.category }}</p>
+                        <p>{{ object.description|truncatechars:100 }}</p>
+                        <p>{{ object.price }}</p>
+                        <p>{{ object.date_created|date:'d-m-Y' }}</p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+{% endblock %}
