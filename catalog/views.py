@@ -1,7 +1,8 @@
 from django.shortcuts import render
 
-from catalog.models import Product
+from catalog.models import Product, BlogPost
 from django.views import generic
+from django.urls import reverse_lazy
 
 
 class HomepageListView(generic.ListView):
@@ -41,4 +42,40 @@ def contacts(request):
     return render(request, 'catalog/contact.html')
 
 
+class BlogPostListView(generic.ListView):
+    model = BlogPost
+    extra_context = {'title': 'список постов'}
 
+
+class BlogPostDetailView(generic.DetailView):
+    model = BlogPost
+    template_name = 'catalog/blogpost_form.html'
+    context_object_name = 'post'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.views_count += 1
+        self.object.save()
+        context = self.get_context_data(object=self.object)
+        return self.render_to_response(context)
+
+
+# class BlogPostCreateView(generic.CreateView):
+#     model = BlogPost
+#     template_name = 'catalog/blogpost_form.html'
+#     fields = ['title', 'content', 'preview', 'is_published']
+
+
+# class BlogPostUpdateView(generic.UpdateView):
+#     model = BlogPost
+#     template_name = 'catalog/blogpost_form.html'
+#     fields = ['title', 'content', 'preview', 'is_published']
+#
+#     def get_success_url(self):
+#         return reverse_lazy('blogpost_detail', kwargs={'slug': self.object.slug})
+
+
+# class BlogPostDeleteView(generic.DeleteView):
+#     model = BlogPost
+#     template_name = 'blogpost_confirm_delete.html'
+#     success_url = reverse_lazy('blogpost_list')

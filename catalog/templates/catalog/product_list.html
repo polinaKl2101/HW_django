@@ -10,11 +10,11 @@
                     </div>
                     <div class="card-body">
                         <p>{{ object.product_name }}</p>
-                        <p>{{ object.category }}</p>
                         <p>{{ object.description|truncatechars:100 }}</p>
                         <p>{{ object.price }}</p>
                         <p>{{ object.date_created|date:'d-m-Y' }}</p>
                     </div>
+                    <a href="{% url 'catalog:blog_post' %}" type="button"> Перейти к товару </a>
                 </div>
             </div>
         {% endfor %}

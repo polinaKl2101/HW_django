@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.text import slugify
 
 
 NULLABLE = {'blank': True, 'null': True}
@@ -37,3 +38,24 @@ class Product(models.Model):
         verbose_name = 'Продукт'
         verbose_name_plural = 'Продукты'
         ordering = ('pk',)
+
+
+class BlogPost(models.Model):
+    title = models.CharField(max_length=200, verbose_name='Название')
+    slug = models.CharField(max_length=200, unique=True, verbose_name='URL')
+    content = models.TextField(verbose_name='Описание')
+    preview = models.ImageField(upload_to='images/', verbose_name='Изображение', **NULLABLE)
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    is_published = models.BooleanField(default=False)
+    views_count = models.IntegerField(default=0)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = 'комментарий'
+        verbose_name_plural = 'комментарии'
