@@ -1,5 +1,7 @@
 from django.shortcuts import render
+from django.views.generic import CreateView, UpdateView
 
+from catalog.forms import ProductForm
 from catalog.models import Product, BlogPost
 from django.views import generic
 from django.urls import reverse_lazy
@@ -59,6 +61,17 @@ class BlogPostDetailView(generic.DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:homepage')
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:homepage')
 
 # class BlogPostCreateView(generic.CreateView):
 #     model = BlogPost
