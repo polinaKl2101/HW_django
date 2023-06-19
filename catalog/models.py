@@ -59,3 +59,19 @@ class BlogPost(models.Model):
     class Meta:
         verbose_name = 'комментарий'
         verbose_name_plural = 'комментарии'
+
+
+class Version(models.Model):
+
+    version_number = models.IntegerField(verbose_name='номер версии')
+    version_name = models.CharField(max_length=100, verbose_name='название версии')
+    version_flag = models.TextField(verbose_name='признак текущей версии')
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='продукт')
+
+    def __str__(self):
+        return {self.version_name}
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'

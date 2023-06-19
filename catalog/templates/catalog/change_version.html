@@ -1,0 +1,11 @@
+{% extends 'catalog/homepage.html' %}
+
+{% block content %}
+    <h1>Change version of {{ product.name }}</h1>
+    <p>Current version: {{ active_version.version_number }} - {{ active_version.version_name }}</p>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Change version</button>
+    </form>
+{% endblock %}
