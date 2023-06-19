@@ -15,6 +15,12 @@ class ProductForm(forms.ModelForm):
         # fields = '__all__'
         fields = ['product_name', 'description', 'image', 'category', 'price']
 
+    def __int__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+
+
     def clean(self):
         cleaned_data = super().clean()
         name = cleaned_data.get('product_name')
