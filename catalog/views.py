@@ -71,7 +71,7 @@ class BlogPostCreateView(generic.CreateView):
     model = BlogPost
     form_class = BlogPostForm
     template_name = 'catalog/blogpost_form.html'
-    fields = ['title', 'content', 'preview', 'is_published']
+    # fields = ['title', 'content', 'preview', 'is_published']
 
 
 class BlogPostUpdateView(UpdateView):
