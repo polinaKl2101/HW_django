@@ -9,16 +9,18 @@ class BlogPostForm(forms.ModelForm):
         fields = ['title', 'content', 'preview', 'is_published']
 
 
-class ProductForm(forms.ModelForm):
-    class Meta:
-        model = Product
-        # fields = '__all__'
-        fields = ['product_name', 'description', 'image', 'category', 'price']
-
+class StyleFormMixin:
     def __int__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control'
+
+
+class ProductForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Product
+        # fields = '__all__'
+        fields = ['product_name', 'description', 'image', 'category', 'price']
 
 
     def clean(self):
@@ -35,7 +37,7 @@ class ProductForm(forms.ModelForm):
         return cleaned_data
 
 
-class VersionForm(forms.ModelForm):
+class VersionForm(StyleFormMixin, forms.ModelForm):
     version_number = forms.IntegerField(label='Номер версии')
     version_name = forms.CharField(label='Название версии', max_length=100)
 

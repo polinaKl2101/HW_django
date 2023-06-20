@@ -1,6 +1,6 @@
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm, VersionForm, BlogPostForm
 from catalog.models import Product, BlogPost, Version
@@ -105,6 +105,12 @@ class ProductUpdateView(UpdateView):
         VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
         context_data['formset'] = VersionFormset()
         return context_data
+
+
+class ProductDeleteView(DeleteView):
+
+    model = Product
+    success_url = reverse_lazy('catalog:current_prod')
 
 
 def change_version(request, product_id):
