@@ -71,6 +71,7 @@ class BlogPostCreateView(generic.CreateView):
     model = BlogPost
     form_class = BlogPostForm
     template_name = 'catalog/blogpost_form.html'
+    success_url = reverse_lazy('catalog:blog_post')
     # fields = ['title', 'content', 'preview', 'is_published']
 
 
