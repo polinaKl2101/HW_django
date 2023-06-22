@@ -1,7 +1,9 @@
-
 {% extends 'catalog/homepage.html' %}
+{% load my_tags %}
 
 {% block content %}
+    <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"
+         height="350px">
     <h1>{{ object.title }}</h1>
     <p>{{ object.content }}</p>
     <p>Views: {{ object.views_count }}</p>
