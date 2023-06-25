@@ -2,7 +2,9 @@
 {% load my_tags %}
 {% block content %}
     <div class="col-12 mb-5">
-        <a class="btn btn-outline-primary" href="{% url 'catalog:create_blogpost' %}">Добавить пост</a>
+        {% if user.is_authenticated %}
+            <a class="btn btn-outline-primary" href="{% url 'catalog:create_blogpost' %}">Добавить пост</a>
+        {% endif %}
     </div>
     {% for object in object_list %}
         <div class="col-3">
@@ -13,15 +15,52 @@
                 </div>
                 <div class="card-body">
                     <p>{{ object.title }}</p>
-                    <p>{{ object.content|truncatechars:100 }}</p>
                     <p>{{ object.preview }}</p>
-                    <p>{{ object.created_at|date:'d-m-Y' }}</p>
-                    <p>{{ object.views_count }}</p>
+                    <p>{{ object.content|truncatechars:100 }}</p>
+                </div>
+                <div class="btn-group-center">
+                    {% if user.is_authenticated %}
+                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                    <a href="{% url 'catalog:update_blogpost' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
     {% endfor %}
 {% endblock %}
+{#{% block content %}#}
+{#    <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"#}
+{#         height="350px">#}
+{#    <h1>{{ object.title }}</h1>#}
+{#    <p>{{ object.content }}</p>#}
+{#    <p>Views: {{ object.views_count }}</p>#}
+{#{% endblock %}#}
+
+
+{#{% extends 'catalog/homepage.html' %}#}
+{#{% load my_tags %}#}
+{#{% block content %}#}
+{#    <div class="col-12 mb-5">#}
+{#        <a class="btn btn-outline-primary" href="{% url 'catalog:create_blogpost' %}">Добавить пост</a>#}
+{#    </div>#}
+{#    {% for object in object_list %}#}
+{#        <div class="col-3">#}
+{#            <div class="card mb-4 box-shadow">#}
+{#                <div class="card-header">#}
+{#                    <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"#}
+{#                         height="350px">#}
+{#                </div>#}
+{#                <div class="card-body">#}
+{#                    <p>{{ object.title }}</p>#}
+{#                    <p>{{ object.content|truncatechars:100 }}</p>#}
+{#                    <p>{{ object.preview }}</p>#}
+{#                    <p>{{ object.created_at|date:'d-m-Y' }}</p>#}
+{#                    <p>{{ object.views_count }}</p>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    {% endfor %}#}
+{#{% endblock %}#}
 
 {#<!doctype html>#}
 {#<html lang="en">#}
