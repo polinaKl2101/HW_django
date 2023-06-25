@@ -24,20 +24,6 @@ class Current_prodDetailView(generic.DetailView):
         return context_data
 
 
-# def current_prod(request):
-#     products_list = Product.objects.all()
-#     context = {
-#         'object_list': products_list
-#     }
-#     return render(request, 'catalog/homepage.html', context)
-
-
-# class ContactsListView(generic.ListView):
-#     model = Product
-#      extra_context = {
-#          'title': 'Контакты'
-#      }
-
 def contacts(request):
     extra_context = {
         'title': 'Контакты'
@@ -88,12 +74,6 @@ class BlogPostUpdateView(UpdateView):
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         return context_data
-    # model = BlogPost
-    # form_class = BlogPostForm
-    # fields = ['title', 'content', 'preview', 'is_published']
-    #
-    # def get_success_url(self):
-    #     return reverse_lazy('catalog:blog_post', kwargs={'slug': self.object.slug})
 
 
 class BlogPostDeleteView(generic.DeleteView):
@@ -106,6 +86,13 @@ class ProductCreateView(CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:homepage')
+
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.user = self.request.user
+        self.object.save()
+
+        return super().form_valid(form)
 
 
 class ProductUpdateView(UpdateView):
