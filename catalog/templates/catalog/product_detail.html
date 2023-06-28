@@ -1,0 +1,9 @@
+{% extends 'catalog/homepage.html' %}
+{% load my_tags %}
+{% block content %}
+    <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"
+         height="350px">
+    <h1>{{ object.product_name }}</h1>
+    <p>{{ object.description }}</p>
+    <p>{{ object.price }}</p>
+{% endblock %}

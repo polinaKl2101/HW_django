@@ -56,12 +56,6 @@ class BlogPostDetailView(generic.DetailView):
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
-    # def get_context_data(self, **kwargs):
-    #     context_data = super().get_context_data(**kwargs)
-    #     return context_data
-    #
-
-
 
 class BlogPostCreateView(generic.CreateView):
     model = BlogPost
@@ -112,6 +106,16 @@ class ProductUpdateView(UpdateView):
         return context_data
 
 
+class ProductDetailView(generic.DetailView):
+    model = Product
+    template_name = 'catalog/product_detail.html'
+    context_object_name = 'post'
+    success_url = reverse_lazy('catalog:homepage')
+
+    def get_queryset(self):
+        return Product.objects
+
+
 class ProductDeleteView(DeleteView):
 
     model = Product
@@ -136,14 +140,6 @@ def change_version(request, product_id):
         form = VersionForm()
     return render(request, 'catalog/change_version.html', {'form': form, 'product': product})
 
-
-# class BlogPostUpdateView(generic.UpdateView):
-#     model = BlogPost
-#     template_name = 'catalog/blogpost_form.html'
-#     fields = ['title', 'content', 'preview', 'is_published']
-#
-#     def get_success_url(self):
-#         return reverse_lazy('blogpost_detail', kwargs={'slug': self.object.slug})
 
 
 

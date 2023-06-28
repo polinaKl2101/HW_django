@@ -21,8 +21,10 @@
                 </div>
                 <div class="btn-group-center">
                     {% if user.is_authenticated %}
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <a href="{% url 'catalog:update_product' object.pk %}" type="button" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'catalog:update_product' object.pk %}" type="button"
+                           class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a href="{% url 'catalog:detail_product' object.pk %}" type="button"
+                           class="btn btn-sm btn-outline-secondary">View</a>
                     {% endif %}
                 </div>
             </div>
