@@ -3,7 +3,9 @@
 {% block content %}
     <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"
          height="350px">
-    <h1>{{ object.product_name }}</h1>
-    <p>{{ object.description }}</p>
-    <p>{{ object.price }}</p>
+    <h2>{{ object.product_name }}</ h2>
+
+    <p>{{ object.description }}</ p>
+
+    <p>{{ object.price }} рублей </p>
 {% endblock %}
