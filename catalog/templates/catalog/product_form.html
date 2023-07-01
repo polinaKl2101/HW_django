@@ -1,6 +1,7 @@
 {% extends 'catalog/homepage.html' %}
 
 {% block content %}
+    {% if user.is_authenticated and object.user == request.user%}
     <div class="col-12">
         <form class="row" method="post" enctype="multipart/form-data">
 
@@ -19,4 +20,5 @@
             </div>
         </form>
     </div>
+    {% endif %}
 {% endblock %}

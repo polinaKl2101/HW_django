@@ -7,29 +7,37 @@
         {% endif %}
     </div>
     {% for object in object_list %}
-        <div class="col-3">
-            <div class="card mb-4 box-shadow">
-                <div class="card-header">
-                    <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"
-                         height="350px">
-                </div>
-                <div class="card-body">
-                    <p>{{ object.product_name }}</p>
-                    <p>{{ object.description|truncatechars:100 }}</p>
-                    <p>{{ object.price }} рублей</p>
-                    <p>{{ object.user }}</p>
-                </div>
-                <div class="btn-group-center">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'catalog:update_product' object.pk %}" type="button"
-                           class="btn btn-sm btn-outline-success">Edit</a>
+        {% if object.is_published %}
+            <div class="col-3">
+                <div class="card mb-4 box-shadow">
+                    <div class="card-header">
+                        <img src="{{ object.image|media_path }}" class="img-fluid" alt="IMAGE" width="350px"
+                             height="350px">
+                    </div>
+                    <div class="card-body">
+                        <p>{{ object.product_name }}</p>
+                        <p>{{ object.description|truncatechars:100 }}</p>
+                        <p>{{ object.price }} рублей</p>
+                        <p>{{ object.user }}</p>
+                    </div>
+                    <div class="btn-group-center">
+
+
                         <a href="{% url 'catalog:detail_product' object.pk %}" type="button"
                            class="btn btn-sm btn-outline-success">View</a>
-                        <a href="{% url 'catalog:delete_product' object.pk %}" type="button"
-                           class="btn btn-sm btn-outline-danger">Delete</a>
-                    {% endif %}
+                        {% if perms.catalog.delete_product %}
+                            <a href="{% url 'catalog:delete_product' object.pk %}" type="button"
+                               class="btn btn-sm btn-outline-danger">Delete</a>
+                        {% endif %}
+                        {% if perms.catalog.change_product %}
+                            <a href="{% url 'catalog:update_product' object.pk %}" type="button"
+                               class="btn btn-sm btn-outline-success">Edit</a>
+                        {% endif %}
+                    </div>
+
                 </div>
+
             </div>
-        </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

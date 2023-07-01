@@ -18,13 +18,15 @@
                     <p>{{ object.content|truncatechars:100 }}</p>
                 </div>
                 <div class="btn-group-center">
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'catalog:update_blogpost' object.pk %}" type="button"
-                           class="btn btn-sm btn-outline-success">Edit</a>
-                        <a href="{% url 'catalog:detail_blogpost' object.pk %}" type="button"
-                           class="btn btn-sm btn-outline-success">View</a>
+                    <a href="{% url 'catalog:detail_blogpost' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-success">View</a>
+                    {% if perms.catalog.delete_blogpost %}
                         <a href="{% url 'catalog:delete_blogpost' object.pk %}" type="button"
                            class="btn btn-sm btn-outline-danger">Delete</a>
+                    {% endif %}
+                    {% if perms.catalog.change_blogpost %}
+                        <a href="{% url 'catalog:update_blogpost' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-success">Edit</a>
                     {% endif %}
                 </div>
             </div>

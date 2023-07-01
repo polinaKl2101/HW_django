@@ -20,7 +20,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
         # fields = '__all__'
-        fields = ['product_name', 'description', 'image', 'category', 'price']
+        fields = ['product_name', 'description', 'image', 'category', 'price', 'is_published']
 
 
     def clean(self):

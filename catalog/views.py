@@ -1,3 +1,5 @@
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, PermissionRequiredMixin
 from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -13,7 +15,6 @@ class HomepageListView(generic.ListView):
     extra_context = {
         'title': 'Магазин'
     }
-
 
 class Current_ProductDetailView(generic.DetailView):
     model = Product
@@ -57,34 +58,38 @@ class BlogPostDetailView(generic.DetailView):
         return self.render_to_response(context)
 
 
-class BlogPostCreateView(generic.CreateView):
+class BlogPostCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
     model = BlogPost
     form_class = BlogPostForm
     template_name = 'catalog/blogpost_form.html'
     success_url = reverse_lazy('catalog:blog_post')
+    permission_required = 'catalog.add_blogpost'
     # fields = ['title', 'content', 'preview', 'is_published']
 
 
-class BlogPostUpdateView(generic.UpdateView):
+class BlogPostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
     model = BlogPost
     form_class = BlogPostForm
     success_url = reverse_lazy('catalog:blog_post')
+    permission_required = 'catalog.change_blogpost'
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         return context_data
 
 
-class BlogPostDeleteView(generic.DeleteView):
+class BlogPostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
     model = BlogPost
     template_name = 'catalog/blogpost_confirm_delete.html'
+    permission_required = 'catalog.delete_blogpost'
     success_url = reverse_lazy('catalog:blog_post')
 
 
-class ProductCreateView(CreateView):
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:homepage')
+    permission_required = 'catalog.add_product'
 
     def form_valid(self, form):
         self.object = form.save()
@@ -94,10 +99,11 @@ class ProductCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ProductUpdateView(UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     success_url = reverse_lazy('catalog:homepage')
+    permission_required = 'catalog.change_product'
     
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -116,11 +122,12 @@ class ProductDetailView(generic.DetailView):
         return Product.objects
 
 
-class ProductDeleteView(DeleteView):
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
 
     model = Product
     template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:current_prod')
+    permission_required = 'catalog.delete_product'
 
 
 def change_version(request, product_id):
