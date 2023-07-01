@@ -15,7 +15,7 @@ class HomepageListView(generic.ListView):
     }
 
 
-class Current_prodDetailView(generic.DetailView):
+class Current_ProductDetailView(generic.DetailView):
     model = Product
 
     def get_context_data(self, **kwargs):
@@ -77,8 +77,8 @@ class BlogPostUpdateView(generic.UpdateView):
 
 class BlogPostDeleteView(generic.DeleteView):
     model = BlogPost
-    template_name = 'blogpost_confirm_delete.html'
-    success_url = reverse_lazy('blogpost_list')
+    template_name = 'catalog/blogpost_confirm_delete.html'
+    success_url = reverse_lazy('catalog:blog_post')
 
 
 class ProductCreateView(CreateView):
@@ -119,6 +119,7 @@ class ProductDetailView(generic.DetailView):
 class ProductDeleteView(DeleteView):
 
     model = Product
+    template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:current_prod')
 
 

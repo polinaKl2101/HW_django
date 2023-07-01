@@ -8,4 +8,8 @@
     <p>{{ object.description }}</ p>
 
     <p>{{ object.price }} рублей </p>
+    <div class="card-footer">
+        <a href="{% url 'catalog:homepage' %}" type="button"
+           class="btn btn-sm btn-outline-primary">Вернуться на главную</a>
+    </div>
 {% endblock %}

@@ -6,4 +6,9 @@
     <h1>{{ object.title }}</ h1>
     <h5>{{ object.content }}</ h5>
     <h6>Просмотров поста: {{ object.views_count }}</ h6>
+    <div class="card-footer">
+        <a href="{% url 'catalog:blog_post' %}" type="button"
+           class="btn btn-sm btn-outline-primary">Вернуться на главную</a>
+    </div>
+
 {% endblock %}
