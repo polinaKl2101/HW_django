@@ -29,7 +29,7 @@
                             <a href="{% url 'catalog:delete_product' object.pk %}" type="button"
                                class="btn btn-sm btn-outline-danger">Delete</a>
                         {% endif %}
-                        {% if perms.catalog.change_product %}
+                        {% if perms.catalog.change_product or request.user == object.user %}
                             <a href="{% url 'catalog:update_product' object.pk %}" type="button"
                                class="btn btn-sm btn-outline-success">Edit</a>
                         {% endif %}
