@@ -13,6 +13,7 @@ from catalog.forms import StyleFormMixin
 from catalog.models import Product
 from users.forms import UserRegisterForm, UserForm
 from users.models import User
+from users.services import send_new_password
 
 
 class LoginView(BaseLoginView):
@@ -51,14 +52,9 @@ class UserUpdateView(UpdateView):
 
 def generate_new_password(request):
     new_password = ''.join([str(random.randint(1, 10)) for _ in range(12)])
-    send_mail(
-        subject='Пароль изменен',
-        message=f'Новый пароль для входа: {new_password}',
-        from_email=settings.EMAIL_HOST_USER,
-        recipient_list=[request.user.email]
-    )
     request.user.set_password(new_password)
     request.user.save()
+    send_new_password(request.user.email, new_password)
     return redirect(reverse('catalog:homepage'))
 
 
