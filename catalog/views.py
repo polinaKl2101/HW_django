@@ -111,14 +111,13 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         context_data['formset'] = VersionFormset()
         return context_data
 
-    # def get_form_kwargs(self):
-    #
-    #     kwargs = super().get_form_kwargs()
-    #
-    #     if self.request.user != kwargs['instance'].user:
-    #         return self.handle_no_permission()
-    #
-    #     return kwargs
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+
+        if (self.request.user != kwargs['instance'].user) or (not self.request.user.has_perm('catalog.change_product')):
+            return self.handle_no_permission()
+
+        return kwargs
 
 
 class ProductDetailView(generic.DetailView):
