@@ -19,10 +19,6 @@ class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
     template_name = 'catalog/blog/clients/client_detail.html'
     success_url = reverse_lazy('catalog:clients')
 
-    # def get_success_url(self):
-    #     pk = self.kwargs['pk']
-    #     return reverse_lazy('catalog:client_update', kwargs={'pk': pk})
-
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
         return context_data
