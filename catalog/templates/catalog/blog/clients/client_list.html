@@ -1,0 +1,31 @@
+{% extends 'catalog/homepage.html' %}
+{% load my_tags %}
+{% block content %}
+    <div class="col-12 mb-5">
+        {% if user.is_authenticated %}
+            <a class="btn btn-outline-primary" href="{% url 'catalog:clients_create' %}">Добавить клиента</a>
+        {% endif %}
+    </div>
+    {% for object in object_list %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+
+                <div class="card-body">
+                    <p>{{ object.email }}</p>
+                    <p>{{ object.fullname }}</p>
+                    <p>{{ object.comment }}</p>
+                </div>
+                <div class="btn-group-center">
+                    {% if perms.catalog.delete_blogpost %}
+                        <a href="{% url 'catalog:clients_delete' object.pk %}" type="button"
+                           class="btn btn-sm btn-outline-danger">Удалить</a>
+                    {% endif %}
+                    {% if perms.catalog.change_blogpost %}
+                        <a href="{% url 'catalog:clients_update' object.pk %}" type="button"
+                       class="btn btn-sm btn-outline-success">Редактировать</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}

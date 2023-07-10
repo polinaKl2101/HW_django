@@ -4,8 +4,8 @@ from django.forms import inlineformset_factory
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, VersionForm, BlogPostForm
-from catalog.models import Product, BlogPost, Version
+from catalog.forms import ProductForm, VersionForm, BlogPostForm, ClientForm
+from catalog.models import Product, BlogPost, Version, Client
 from django.views import generic
 from django.urls import reverse_lazy
 
@@ -29,113 +29,7 @@ def contacts(request):
     extra_context = {
         'title': 'Контакты'
     }
-    return render(request, 'catalog/contact.html')
-
-
-class BlogPostListView(generic.ListView):
-    model = BlogPost
-    template_name = 'catalog/blogpost_list.html'
-    context_object_name = 'posts'
-
-    def get_queryset(self):
-        return BlogPost.objects.filter(is_published=True)
-
-
-class BlogPostDetailView(generic.DetailView):
-    model = BlogPost
-    template_name = 'catalog/blogpost_detail.html'
-    context_object_name = 'post'
-    success_url = reverse_lazy('catalog:homepage')
-
-    def get_queryset(self):
-        return BlogPost.objects
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        self.object.views_count += 1
-        self.object.save()
-        context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
-
-
-class BlogPostCreateView(LoginRequiredMixin, PermissionRequiredMixin, generic.CreateView):
-    model = BlogPost
-    form_class = BlogPostForm
-    template_name = 'catalog/blogpost_form.html'
-    success_url = reverse_lazy('catalog:blog_post')
-    permission_required = 'catalog.add_blogpost'
-    # fields = ['title', 'content', 'preview', 'is_published']
-
-
-class BlogPostUpdateView(LoginRequiredMixin, PermissionRequiredMixin, generic.UpdateView):
-    model = BlogPost
-    form_class = BlogPostForm
-    success_url = reverse_lazy('catalog:blog_post')
-    permission_required = 'catalog.change_blogpost'
-
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        return context_data
-
-
-class BlogPostDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
-    model = BlogPost
-    template_name = 'catalog/blogpost_confirm_delete.html'
-    permission_required = 'catalog.delete_blogpost'
-    success_url = reverse_lazy('catalog:blog_post')
-
-
-class ProductCreateView(LoginRequiredMixin, CreateView):
-    model = Product
-    form_class = ProductForm
-    success_url = reverse_lazy('catalog:homepage')
-    permission_required = 'catalog.add_product'
-
-    def form_valid(self, form):
-        self.object = form.save()
-        self.object.user = self.request.user
-        self.object.save()
-
-        return super().form_valid(form)
-
-
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
-    model = Product
-    form_class = ProductForm
-    success_url = reverse_lazy('catalog:homepage')
-    permission_required = 'catalog.change_product'
-    
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        VersionFormset = inlineformset_factory(Product, Version, form=VersionForm, extra=1)
-        context_data['formset'] = VersionFormset()
-        return context_data
-
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-
-        if (self.request.user != kwargs['instance'].user) or (not self.request.user.has_perm('catalog.change_product')):
-            return self.handle_no_permission()
-
-        return kwargs
-
-
-class ProductDetailView(generic.DetailView):
-    model = Product
-    template_name = 'catalog/product_detail.html'
-    context_object_name = 'post'
-    success_url = reverse_lazy('catalog:homepage')
-
-    def get_queryset(self):
-        return Product.objects
-
-
-class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-
-    model = Product
-    template_name = 'catalog/product_confirm_delete.html'
-    success_url = reverse_lazy('catalog:current_prod')
-    permission_required = 'catalog.delete_product'
+    return render(request, 'catalog/contacts/contact.html')
 
 
 def change_version(request, product_id):
@@ -154,7 +48,7 @@ def change_version(request, product_id):
             return redirect('product_list')
     else:
         form = VersionForm()
-    return render(request, 'catalog/change_version.html', {'form': form, 'product': product})
+    return render(request, 'catalog/contacts/change_version.html', {'form': form, 'product': product})
 
 
 

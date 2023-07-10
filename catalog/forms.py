@@ -1,6 +1,15 @@
 from django import forms
 
-from catalog.models import Product, Version, BlogPost
+from catalog.models import Product, Version, BlogPost, Client
+
+
+class ClientForm(forms.ModelForm):
+
+    class Meta:
+        model = Client
+        fields = ['email', 'fullname', 'comment']
+
+
 
 
 class BlogPostForm(forms.ModelForm):

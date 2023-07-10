@@ -1,5 +1,11 @@
 from django.contrib import admin
-from catalog.models import Product, Category, BlogPost
+from catalog.models import Product, Category, BlogPost, Client
+
+
+@admin.register(Client)
+class ClientAdmin(admin.ModelAdmin):
+    list_display = ('email', 'fullname')
+    list_filter = ('email', 'fullname')
 
 
 @admin.register(Category)

@@ -4,19 +4,20 @@
 {% block content %}
     <div class="col-12">
         <form class="row" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
 
             <div class="col-6">
                 <div class="card-header">
                     <h2 class="card-title">
-                        Удаление поста
+                        Удаление клиента
                     </h2>
                 </div>
                 <div class="card-body">
-                    Удалить пост "{{ object }}"?
+                    Удалить клиента "{{ object }}"?
                     <button type="submit" class="btn btn-danger">Удалить</button>
                 </div>
                 <div class="card-footer">
-                    <a href="{% url 'catalog:blog_post' %}">Отмена</a>
+                    <a href="{% url 'catalog:clients' %}">Отмена</a>
                 </div>
             </div>
         </form>

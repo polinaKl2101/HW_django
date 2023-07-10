@@ -6,6 +6,83 @@ from users.models import User
 NULLABLE = {'blank': True, 'null': True}
 
 
+class Client(models.Model):
+    """Клиент сервиса"""
+
+    email = models.EmailField(unique=True, verbose_name='Контактный email')
+    fullname = models.CharField(max_length=255, verbose_name='ФИО')
+    comment = models.TextField(verbose_name='Комментарий', **NULLABLE)
+
+    def __str__(self):
+        return f"{self.email}"
+
+    class Meta:
+        verbose_name = 'Клиент'
+        verbose_name_plural = 'Клиенты'
+
+
+class Mailing(models.Model):
+    """Рассылка (настройки)"""
+
+    FREQUENCY_CHOICES = (
+        ('daily', 'Раз в день'),
+        ('weekly', 'Раз в неделю'),
+        ('monthly', 'Раз в месяц'),
+    )
+    STATUS_CHOICES = (
+        ('created', 'Создана'),
+        ('started', 'Запущена'),
+        ('completed', 'Завершена'),
+    )
+
+    title = models.CharField(max_length=60, verbose_name='Тема рассылки')
+    time = models.DateTimeField(auto_now_add=True, verbose_name='Время рассылки')
+    frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, verbose_name='Периодичность')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='created', verbose_name='Статус рассылки')
+    clients = models.ManyToManyField('Client', verbose_name='Клиенты')
+
+    class Meta:
+        verbose_name = 'Рассылка'
+        verbose_name_plural = 'Рассылки'
+
+
+class Message(models.Model):
+    """Сообщение для рассылки"""
+
+    title = models.CharField(max_length=60, verbose_name='Тема письма')
+    body = models.TextField(verbose_name='Тело письма')
+    message = models.ForeignKey(Mailing, verbose_name='Рассылка', on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = 'Сообщение'
+        verbose_name_plural = 'Сообщения'
+
+
+class Log(models.Model):
+    """Модель Логи рассылки"""
+
+    STATUS_CHOICES = (
+        ('success', 'Успешно'),
+        ('error', 'Ошибка'),
+    )
+
+    message = models.ForeignKey(Message, on_delete=models.CASCADE, verbose_name='Сообщение для рассылки')
+    timedata = models.DateTimeField(auto_now_add=True, verbose_name='Дата и время последней попытки')
+    status = models.CharField(max_length=25, choices=STATUS_CHOICES, verbose_name='Статус попытки')
+    server_response = models.TextField(verbose_name='Ответ почтового сервера', **NULLABLE)
+
+    def __str__(self):
+        return f"Время последней рассылки: {self.timedata}"
+
+    class Meta:
+        verbose_name = 'Лог'
+        verbose_name_plural = 'Логи'
+
+
+
+
+
+
 class Category(models.Model):
 
     category_name = models.CharField(max_length=150, verbose_name='Название категории')
