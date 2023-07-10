@@ -1,0 +1,15 @@
+{% extends 'catalog/homepage.html' %}
+
+{% load my_tags %}
+{% block content %}
+
+    <h2>{{ object.message }}</ h2>
+
+    <p>{{ object.status }}</ p>
+
+    <p>{{ object.server_response }} </p>
+    <div class="card-footer">
+        <a href="{% url 'catalog:log' %}" type="button"
+           class="btn btn-sm btn-outline-primary">Вернуться на главную</a>
+    </div>
+{% endblock %}

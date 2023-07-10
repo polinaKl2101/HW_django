@@ -36,6 +36,7 @@ class Mailing(models.Model):
     )
 
     title = models.CharField(max_length=60, verbose_name='Тема рассылки')
+    body = models.TextField(verbose_name='Тело письма')
     time = models.DateTimeField(auto_now_add=True, verbose_name='Время рассылки')
     frequency = models.CharField(max_length=10, choices=FREQUENCY_CHOICES, verbose_name='Периодичность')
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='created', verbose_name='Статус рассылки')
@@ -50,7 +51,6 @@ class Message(models.Model):
     """Сообщение для рассылки"""
 
     title = models.CharField(max_length=60, verbose_name='Тема письма')
-    body = models.TextField(verbose_name='Тело письма')
     message = models.ForeignKey(Mailing, verbose_name='Рассылка', on_delete=models.CASCADE)
 
     class Meta:
@@ -77,10 +77,6 @@ class Log(models.Model):
     class Meta:
         verbose_name = 'Лог'
         verbose_name_plural = 'Логи'
-
-
-
-
 
 
 class Category(models.Model):

@@ -7,7 +7,7 @@ from catalog.models import Client
 
 class ClientListView(LoginRequiredMixin, generic.ListView):
     model = Client
-    template_name = 'catalog/blog/clients/client_list.html'
+    template_name = 'catalog/clients/client_list.html'
     extra_context = {
         'title': 'Клиенты'
     }
@@ -16,7 +16,7 @@ class ClientListView(LoginRequiredMixin, generic.ListView):
 class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Client
     form_class = ClientForm
-    template_name = 'catalog/blog/clients/client_detail.html'
+    template_name = 'catalog/clients/client_detail.html'
     success_url = reverse_lazy('catalog:clients')
 
     def get_context_data(self, **kwargs):
@@ -27,11 +27,11 @@ class ClientUpdateView(LoginRequiredMixin, generic.UpdateView):
 class ClientCreateView(generic.CreateView):
     model = Client
     form_class = ClientForm
-    template_name = 'catalog/blog/clients/client_form.html'
+    template_name = 'catalog/clients/client_form.html'
     success_url = reverse_lazy('catalog:clients')
 
 
 class ClientDeleteView(generic.DeleteView):
     model = Client
-    template_name = 'catalog/blog/clients/client_confirm_delete.html'
+    template_name = 'catalog/clients/client_confirm_delete.html'
     success_url = reverse_lazy('catalog:clients')

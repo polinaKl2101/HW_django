@@ -1,0 +1,12 @@
+{% extends 'catalog/homepage.html' %}
+{% load my_tags %}
+{% block content %}
+
+    <h2>{{ object.title }}</ h2>
+    <p>{{ object.frequency }}</ p>
+    <p>{{ object.status }} </p>
+    <div class="card-footer">
+        <a href="{% url 'catalog:mailing' %}" type="button"
+           class="btn btn-sm btn-outline-primary">Вернуться на главную</a>
+    </div>
+{% endblock %}

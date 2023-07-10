@@ -78,10 +78,12 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': os.getenv('DATABASE_NAME'),
         'USER': os.getenv('DATABASE_USER'),
-        'PASSWORD': os.getenv('DATABASE_PASSWORD')
+        'PASSWORD': os.getenv('DATABASE_PASSWORD'),
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
@@ -133,6 +135,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'users.User'
 
+SITE_ID = 1
+SITE_ADRESS = "127.0.0.1:8000"
+
 LOGOUT_REDIRECT_URL = '/'
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/users/'
@@ -147,6 +152,16 @@ EMAIL_USE_TLS = False
 EMAIL_USE_SSL = True
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+CRONJOBS = [
+    ('5 * * * *', 'main.services.daily_send'),
+    ('0 0 * * 0', 'main.services.weekly_send'),
+    ('0 0 1 * *', 'main.services.monthly_send'),
+]
+
+CELERY_BROKER_URL = 'redis://localhost:6379/0'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_TIMEZONE = 'Europe/Moscow'
 
 CACHE_ENABLED = os.getenv('CACHE_ENABLED') == 'True'
 

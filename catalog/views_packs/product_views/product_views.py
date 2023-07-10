@@ -6,9 +6,19 @@ from catalog.models import Product, Version
 from django.forms import inlineformset_factory
 
 
+class Current_ProductDetailView(generic.DetailView):
+    model = Product
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = context_data['object']
+        return context_data
+
+
 class ProductCreateView(LoginRequiredMixin, generic.CreateView):
     model = Product
     form_class = ProductForm
+    template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:homepage')
     permission_required = 'catalog.add_product'
 
@@ -43,7 +53,7 @@ class ProductUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class ProductDetailView(generic.DetailView):
     model = Product
-    template_name = 'catalog/product/product_detail.html'
+    template_name = 'catalog/product_detail.html'
     context_object_name = 'post'
     success_url = reverse_lazy('catalog:homepage')
 
@@ -53,6 +63,6 @@ class ProductDetailView(generic.DetailView):
 
 class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, generic.DeleteView):
     model = Product
-    template_name = 'catalog/product/product_confirm_delete.html'
+    template_name = 'catalog/product_confirm_delete.html'
     success_url = reverse_lazy('catalog:current_prod')
     permission_required = 'catalog.delete_product'

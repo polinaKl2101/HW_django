@@ -1,5 +1,23 @@
 from django.contrib import admin
-from catalog.models import Product, Category, BlogPost, Client
+from catalog.models import Product, Category, BlogPost, Client, Message, Mailing, Log
+
+
+@admin.register(Log)
+class LogAdmin(admin.ModelAdmin):
+    list_display = ('message', 'timedata', 'status')
+    list_filter = ('message', 'timedata', 'status')
+
+
+@admin.register(Mailing)
+class MailingAdmin(admin.ModelAdmin):
+    list_display = ('title', 'frequency', 'status')
+    list_filter = ('frequency', 'status')
+
+
+@admin.register(Message)
+class MessageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'message')
+    list_filter = ('title', 'message')
 
 
 @admin.register(Client)

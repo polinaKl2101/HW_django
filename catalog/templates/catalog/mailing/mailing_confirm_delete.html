@@ -1,0 +1,24 @@
+{% extends 'catalog/homepage.html' %}
+
+{% block content %}
+    <div class="col-12">
+        <form class="row" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="col-6">
+                <div class="card-header">
+                    <h2 class="card-title">
+                        Удаление рассылки
+                    </h2>
+                </div>
+                <div class="card-body">
+                    {% csrf_token %}
+                    Удалить рассылку "{{ object.title }}"?
+                    <button type="submit" class="btn btn-danger">Удалить</button>
+                </div>
+                <div class="card-footer">
+                    <a href="{% url 'catalog:mailing' %}">Отмена</a>
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}

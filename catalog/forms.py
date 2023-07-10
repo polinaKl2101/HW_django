@@ -1,6 +1,6 @@
 from django import forms
 
-from catalog.models import Product, Version, BlogPost, Client
+from catalog.models import Product, Version, BlogPost, Client, Message, Mailing, Log
 
 
 class ClientForm(forms.ModelForm):
@@ -10,6 +10,24 @@ class ClientForm(forms.ModelForm):
         fields = ['email', 'fullname', 'comment']
 
 
+class MessageForm(forms.ModelForm):
+
+    class Meta:
+        model = Message
+        fields = '__all__'
+
+
+class MailingForm(forms.ModelForm):
+
+    class Meta:
+        model = Mailing
+        fields = ['title', 'frequency', 'status', 'clients']
+
+
+class LogForm(forms.ModelForm):
+    class Meta:
+        model = Log
+        fields = '__all__'
 
 
 class BlogPostForm(forms.ModelForm):

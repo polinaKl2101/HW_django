@@ -1,13 +1,8 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin, PermissionRequiredMixin
-from django.forms import inlineformset_factory
+from django.db.models import Count
 from django.shortcuts import render, redirect
-from django.views.generic import CreateView, UpdateView, DeleteView
-
-from catalog.forms import ProductForm, VersionForm, BlogPostForm, ClientForm
-from catalog.models import Product, BlogPost, Version, Client
+from catalog.forms import VersionForm
+from catalog.models import Product, BlogPost, Version, Client, Mailing
 from django.views import generic
-from django.urls import reverse_lazy
 
 
 class HomepageListView(generic.ListView):
@@ -16,13 +11,30 @@ class HomepageListView(generic.ListView):
         'title': 'Магазин'
     }
 
-class Current_ProductDetailView(generic.DetailView):
-    model = Product
 
-    def get_context_data(self, **kwargs):
-        context_data = super().get_context_data(**kwargs)
-        context_data['title'] = context_data['object']
-        return context_data
+def index(request):
+    context = {
+        'title': 'Главная',
+    }
+    return render(request, 'catalog/index.html', context)
+
+
+def get(self, request, *args, **kwargs):
+    mailing_number = Mailing.objects.count()
+    mailing_number_active = Mailing.objects.filter(
+        status='started').count()
+    unique_clients = Client.objects.annotate(mailing_num=Count('mailing')).filter(
+        mailing_num__gt=0).count()
+    blogpost = list(BlogPost.objects.filter(is_active=True).order_by('?').values_list('title', flat=True)[
+                      :3])
+    context = {
+        'title': 'Главная',
+        'mailing_number': mailing_number,
+        'mailing_number_active': mailing_number_active,
+        'unique_clients': unique_clients,
+        'blogpost': blogpost
+    }
+    return render(request, 'catalog/index.html', context)
 
 
 def contacts(request):
@@ -43,13 +55,10 @@ def change_version(request, product_id):
             if active_version:
                 active_version.is_active = False
                 active_version.save()
-            new_version = Version(product=product, version_number=new_version_number, version_name=new_version_name, is_active=True)
+            new_version = Version(product=product, version_number=new_version_number, version_name=new_version_name,
+                                  is_active=True)
             new_version.save()
-            return redirect('product_list')
+            return redirect('catalog:homepage')
     else:
         form = VersionForm()
     return render(request, 'catalog/contacts/change_version.html', {'form': form, 'product': product})
-
-
-
-
