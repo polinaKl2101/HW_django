@@ -14,7 +14,7 @@ class MessageForm(forms.ModelForm):
 
     class Meta:
         model = Message
-        fields = '__all__'
+        fields = ('title', 'message')
 
 
 class MailingForm(forms.ModelForm):

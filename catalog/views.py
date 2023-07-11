@@ -12,29 +12,32 @@ class HomepageListView(generic.ListView):
     }
 
 
-def index(request):
-    context = {
-        'title': 'Главная',
-    }
-    return render(request, 'catalog/index.html', context)
+class IndexView(generic.ListView):
+    def get(self, request, *args, **kwargs):
+        mailing_number = Mailing.objects.count()
+        mailing_number_active = Mailing.objects.filter(
+            status='started').count()
+        unique_clients = Client.objects.annotate(mailing_num=Count('mailing')).filter(
+            mailing_num__gt=0).count()
+        blogpost = list(BlogPost.objects.filter(is_published=True).values_list('title', flat=True)[
+                        :3])
+        context = {
+            'title': 'Сервис рассылок',
+            'mailing_number': mailing_number,
+            'mailing_number_active': mailing_number_active,
+            'unique_clients': unique_clients,
+            'blogpost': blogpost
+        }
+        return render(request, 'catalog/index.html', context)
+
+# def index(request):
+#     context = {
+#         'title': 'Сервис рассылок',
+#     }
+#     return render(request, 'catalog/index.html', context)
 
 
-def get(self, request, *args, **kwargs):
-    mailing_number = Mailing.objects.count()
-    mailing_number_active = Mailing.objects.filter(
-        status='started').count()
-    unique_clients = Client.objects.annotate(mailing_num=Count('mailing')).filter(
-        mailing_num__gt=0).count()
-    blogpost = list(BlogPost.objects.filter(is_active=True).order_by('?').values_list('title', flat=True)[
-                      :3])
-    context = {
-        'title': 'Главная',
-        'mailing_number': mailing_number,
-        'mailing_number_active': mailing_number_active,
-        'unique_clients': unique_clients,
-        'blogpost': blogpost
-    }
-    return render(request, 'catalog/index.html', context)
+
 
 
 def contacts(request):

@@ -2,7 +2,7 @@
 {% load my_tags %}
 {% block content %}
     <div class="col-12 mb-5">
-        {% if user.is_authenticated %}
+        {% if user.is_authenticated and not request.user.is_staff or user.is_superuser %}
             <a class="btn btn-outline-primary" href="{% url 'catalog:mailing_create' %}">Добавить рассылку</a>
         {% endif %}
     </div>

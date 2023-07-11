@@ -1,4 +1,3 @@
-
 {% extends 'catalog/homepage.html' %}
 
 {% block content %}
@@ -16,7 +15,10 @@
                     {{ form.as_p }}
                     <button type="submit" class="btn btn-success">Сохранить</button>
                 </div>
-                <div class="card-footer"></div>
+                <div class="card-footer">
+                    <a href="{% url 'catalog:mailing' %}" type="button"
+                       class="btn btn-sm btn-outline-primary">Вернуться на главную</a>
+                </div>
             </div>
         </form>
     </div>

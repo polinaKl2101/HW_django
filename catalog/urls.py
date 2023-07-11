@@ -9,7 +9,7 @@ from catalog.views_packs.message_views.message_views import MessageListView, Mes
     MessageDeleteView
 from catalog.views_packs.product_views.product_views import ProductDeleteView, ProductDetailView, ProductCreateView, \
     ProductUpdateView, Current_ProductDetailView
-from catalog.views import contacts, change_version, HomepageListView
+from catalog.views import contacts, change_version, HomepageListView, IndexView
 from catalog.views_packs.client_views.client_views import ClientListView, ClientUpdateView, ClientCreateView, \
     ClientDeleteView
 from catalog.views_packs.blog_views.blog_views import BlogPostListView, BlogPostCreateView, BlogPostDetailView, \
@@ -19,11 +19,12 @@ app_name = CatalogConfig.name
 
 urlpatterns = [
     path('', HomepageListView.as_view(), name='homepage'),
+    path('index/', IndexView.as_view(), name='index'),
 
     path('contacts/', contacts, name='contacts'),
     path('current_prod', cache_page(50)(Current_ProductDetailView.as_view()), name='current_prod'),
 
-    path('clients/', ClientListView.as_view(), name='clients'),
+    path('clients/', cache_page(60)(ClientListView.as_view()), name='clients'),
     path('clients/update/<int:pk>/', ClientUpdateView.as_view(), name='clients_update'),
     path('clients/create/', ClientCreateView.as_view(), name='clients_create'),
     path('clients/delete/<int:pk>/', ClientDeleteView.as_view(), name='clients_delete'),
